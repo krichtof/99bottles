@@ -1,3 +1,5 @@
+require './lib/bottle_number'
+
 class Bottles
   def song
     verses(99,0)
@@ -8,48 +10,12 @@ class Bottles
   end
 
   def verse(number)
-    "#{quantity(number).capitalize} #{container(number)} of beer on the wall, #{quantity(number)} #{container(number)} of beer.\n" +
-    "#{action(number)}, " +
-      "#{quantity(successor(number))} #{container(successor(number))} of beer on the wall.\n"
+    bottle_number = BottleNumber.new(number)
+    bottle_successor = BottleNumber.new(bottle_number.successor)
+
+    "#{bottle_number.quantity.capitalize} #{bottle_number.container} of beer on the wall, #{bottle_number.quantity} #{bottle_number.container} of beer.\n" +
+    "#{bottle_number.action}, " +
+      "#{bottle_successor.quantity} #{bottle_successor.container} of beer on the wall.\n"
   end
 
-  def container(number)
-    if number == 1
-      "bottle"
-    else
-      "bottles"
-    end
-  end
-
-  def pronoun(number)
-    if number == 0
-      "it"
-    else
-      "one"
-    end
-  end
-
-  def action(number)
-    if number == 0
-      "Go to the store and buy some more"
-    else
-      "Take #{pronoun(number-1)} down and pass it around"
-    end
-  end
-
-  def quantity(number)
-    if number == 0
-      "no more"
-    else
-      number.to_s
-    end
-  end
-
-  def successor(number)
-    if number == 0
-      99
-    else
-      number - 1
-    end
-  end
 end
